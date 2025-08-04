@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Catatan Keuangan Pras Family</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+
+  <div class="max-w-4xl mx-auto bg-white shadow rounded-lg p-6">
+    <h2 class="text-2xl font-bold text-blue-700 mb-4">Catatan Pos Pos Keuangan</h2>
+
+    <form id="financeForm" class="space-y-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <label><input type="checkbox" name="pos" value="Gaji Pokok" class="mr-2">Gaji Pokok</label>
+        <label><input type="checkbox" name="pos" value="Bonus" class="mr-2">Bonus</label>
+        <label><input type="checkbox" name="pos" value="Investasi" class="mr-2">Investasi</label>
+        <label><input type="checkbox" name="pos" value="Cicilan Rumah" class="mr-2">Cicilan Rumah</label>
+        <label><input type="checkbox" name="pos" value="Cicilan Kendaraan" class="mr-2">Cicilan Kendaraan</label>
+        <label><input type="checkbox" name="pos" value="Kebutuhan Pokok" class="mr-2">Kebutuhan Pokok</label>
+        <label><input type="checkbox" name="pos" value="Pendidikan" class="mr-2">Pendidikan</label>
+        <label><input type="checkbox" name="pos" value="Hiburan" class="mr-2">Hiburan</label>
+        <label><input type="checkbox" name="pos" value="Transportasi" class="mr-2">Transportasi</label>
+        <label><input type="checkbox" name="pos" value="Tabungan" class="mr-2">Tabungan</label>
+        <label><input type="checkbox" name="pos" value="Lain-lain" class="mr-2">Lain-lain</label>
+      </div>
+
+      <div>
+        <label class="block font-medium mb-1">Status</label>
+        <select id="statusKeuangan" required class="w-full border rounded px-3 py-2">
+          <option value="">-- Pilih Status --</option>
+          <option value="masuk">Pemasukan</option>
+          <option value="keluar">Pengeluaran</option>
+        </select>
+      </div>
+
+      <div id="tanggalContainer" class="hidden">
+        <label class="block font-medium mb-1">Tanggal Transaksi</label>
+        <input type="date" id="transaksiDate" class="w-full border rounded px-3 py-2">
+      </div>
+
+      <div id="jumlahContainer" class="hidden">
+        <label class="block font-medium mb-1">Jumlah (Rp)</label>
+        <input type="number" id="jumlahTransaksi" class="w-full border rounded px-3 py-2" placeholder="Masukkan jumlah">
+      </div>
+
+      <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow">
+        Simpan
+      </button>
+    </form>
+  </div>
+
+  <div class="max-w-6xl mx-auto mt-10 bg-white shadow rounded-lg p-6">
+    <h3 class="text-xl font-bold text-green-600 mb-4">Riwayat Keuangan</h3>
+    <div class="overflow-x-auto">
+      <table class="min-w-full table-auto border-collapse border border-gray-300">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="border border-gray-300 px-4 py-2">Tanggal</th>
+            <th class="border border-gray-300 px-4 py-2">Pos Keuangan</th>
+            <th class="border border-gray-300 px-4 py-2">Status</th>
+            <th class="border border-gray-300 px-4 py-2">Jumlah</th>
+            <th class="border border-gray-300 px-4 py-2">Pemakaian</th>
+            <th class="border border-gray-300 px-4 py-2">Sisa Saldo</th>
+            <th class="border border-gray-300 px-4 py-2">Aksi</th>
+          </tr>
+        </thead>
+        <tbody id="keuanganTableBody" class="bg-white divide-y divide-gray-200">
+          <!-- Data akan ditampilkan di sini -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('financeForm');
+    const tableBody = document.getElementById('keuanganTableBody');
+    const statusKeuangan = document.getElementById('statusKeuangan');
+    const tanggalContainer = document.getElementById('tanggalContainer');
+    const transaksiDate = document.getElementById('transaksiDate');
+    const jumlahContainer = document.getElementById('jumlahContainer');
+    const jumlahTransaksi = document.getElementById('jumlahTransaksi');
+
+    let keuanganHistory = JSON.parse(localStorage.getItem('keuanganHistory')) || [];
+
+    statusKeuangan.addEventListener('change', () => {
+      const show = !!statusKeuangan.value;
+      tanggalContainer.classList.toggle('hidden', !show);
+      jumlahContainer.classList.toggle('hidden', !show);
+      transaksiDate.required = show;
+      jumlahTransaksi.required = show;
+    });
+
+    function formatTanggalIndo(isoDate) {
+      const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+      const bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
+        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      const d = new Date(isoDate);
+      return `${hari[d.getDay()]}, ${d.getDate()} ${bulan[d.getMonth()]} ${d.getFullYear()}`;
+    }
+
+    function renderTable() {
+      tableBody.innerHTML = '';
+      keuanganHistory.forEach((entry, index) => {
+        const sisa = parseInt(entry.jumlah || 0) - parseInt(entry.pemakaian || 0);
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="border px-4 py-2">${entry.date || '-'}</td>
+          <td class="border px-4 py-2">${entry.pos}</td>
+          <td class="border px-4 py-2">${entry.status}</td>
+          <td class="border px-4 py-2">Rp ${parseInt(entry.jumlah || 0).toLocaleString()}</td>
+          <td class="border px-4 py-2"><input type="number" value="${entry.pemakaian || 0}" onchange="updatePemakaian(${index}, this.value)" class="w-24 px-1 py-0.5 border rounded"></td>
+          <td class="border px-4 py-2">Rp ${(sisa).toLocaleString()}</td>
+          <td class="border px-4 py-2 space-x-2">
+            <button onclick="deleteEntry(${index})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">Hapus</button>
+          </td>
+        `;
+        tableBody.appendChild(tr);
+      });
+    }
+
+    function updatePemakaian(index, value) {
+      keuanganHistory[index].pemakaian = parseInt(value) || 0;
+      localStorage.setItem('keuanganHistory', JSON.stringify(keuanganHistory));
+      renderTable();
+    }
+
+    function deleteEntry(index) {
+      keuanganHistory.splice(index, 1);
+      localStorage.setItem('keuanganHistory', JSON.stringify(keuanganHistory));
+      renderTable();
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const pos = Array.from(form.querySelectorAll('input[name="pos"]:checked')).map(i => i.value);
+      const status = statusKeuangan.value;
+      const date = transaksiDate.value;
+      const jumlah = jumlahTransaksi.value;
+      const pemakaian = 0;
+
+      if (!status || !date || !jumlah) {
+        alert('Isi semua data terlebih dahulu');
+        return;
+      }
+
+      const entry = {
+        pos: pos.join(', '),
+        status: status === 'masuk' ? 'Pemasukan' : 'Pengeluaran',
+        rawDate: date,
+        jumlah: jumlah,
+        pemakaian: pemakaian,
+        date: formatTanggalIndo(date)
+      };
+
+      keuanganHistory.push(entry);
+      localStorage.setItem('keuanganHistory', JSON.stringify(keuanganHistory));
+      renderTable();
+      form.reset();
+      tanggalContainer.classList.add('hidden');
+      jumlahContainer.classList.add('hidden');
+    });
+
+    renderTable();
+  </script>
+
+</body>
+</html>

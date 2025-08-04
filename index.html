@@ -75,30 +75,17 @@
   
   <script>
   //PASS GES
-  async function sha256(text) {
-      const encoder = new TextEncoder();
-      const data = encoder.encode(text);
-      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-      const hashArray = Array.from(new Uint8Array(hashBuffer));
-      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
-      return hashHex;
-    }
+  
+  function decodeBase64(str) {
+    return atob(str);
+  }
 
-    async function start() {
-      const password = prompt("Masukkan password:");
-      const hashed = await sha256(password);
+  const encodedPassword = "MjUyNTE1"; //
+  const input = prompt("Masukkan password:");
 
-      
-      const correctHash = "999af1e920a74bc1ebcce44ef6ae07b338d9b9a1ec2c6ab89b62206c74285b68";
-
-      if (hashed !== correctHash) {
-        document.body.innerHTML = "<h1>Akses ditolak.</h1>";
-      } else {
-        document.body.innerHTML += "<p>Password benar. Selamat datang!</p>";
-      }
-    }
-
-    start();
+  if (input !== decodeBase64(encodedPassword)) {
+    document.body.innerHTML = "Akses ditolak.";
+  }
     //PASS SAMPE SINI GES
 
     const form = document.getElementById('financeForm');

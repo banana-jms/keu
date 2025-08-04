@@ -84,20 +84,21 @@
       return hashHex;
     }
 
-    async function verifyPassword() {
-      const input = prompt("Masukkan password:");
-      const hashedInput = await sha256(input);
+    async function start() {
+      const password = prompt("Masukkan password:");
+      const hashed = await sha256(password);
 
-      // SHA-256 hash dari '252515'
-
+      
       const correctHash = "999af1e920a74bc1ebcce44ef6ae07b338d9b9a1ec2c6ab89b62206c74285b68";
 
-      if (hashedInput !== correctHash) {
-        document.body.innerHTML = "Akses ditolak.";
+      if (hashed !== correctHash) {
+        document.body.innerHTML = "<h1>Akses ditolak.</h1>";
+      } else {
+        document.body.innerHTML += "<p>Password benar. Selamat datang!</p>";
       }
     }
 
-    verifyPassword();
+    start();
     //PASS SAMPE SINI GES
 
     const form = document.getElementById('financeForm');

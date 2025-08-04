@@ -74,10 +74,31 @@
 
   
   <script>
-  let password = prompt("Masukkan password:");
-  if (password !== "252515") {
-    document.body.innerHTML = "Akses ditolak.";
-  }
+  //PASS GES
+  async function sha256(text) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(text);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+      return hashHex;
+    }
+
+    async function verifyPassword() {
+      const input = prompt("Masukkan password:");
+      const hashedInput = await sha256(input);
+
+      // SHA-256 hash dari '252515'
+
+      const correctHash = "999af1e920a74bc1ebcce44ef6ae07b338d9b9a1ec2c6ab89b62206c74285b68";
+
+      if (hashedInput !== correctHash) {
+        document.body.innerHTML = "Akses ditolak.";
+      }
+    }
+
+    verifyPassword();
+    //PASS SAMPE SINI GES
 
     const form = document.getElementById('financeForm');
     const tableBody = document.getElementById('keuanganTableBody');

@@ -19,7 +19,12 @@
 
 <div id="mainContent" class="hidden">
   <div class="max-w-4xl mx-auto bg-white shadow rounded-lg p-6">
-    <h2 class="text-2xl font-bold text-blue-700 mb-4">Catatan Pos Pos Keuangan</h2>
+    <h2 class="text-2xl font-bold text-green-700 mb-4 text-center">Catatan Keuangan</h2>
+<!-- Garis Putus putus -->
+    <hr class="border-t-2 border-dashed border-gray-400 w-full mb-6">
+    
+<!-- Inputan disini -->
+<h3 class="text-lg font-semibold text-gray-700 mb-4">Pilih Item Keuangan</h3>
 
     <form id="financeForm" class="space-y-4">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -37,7 +42,7 @@
       </div>
 
       <div>
-        <label class="block font-medium mb-1">Status</label>
+        <label class="block font-medium mb-1">Status (Pemasukan atau Pengeluaran)</label>
         <select id="statusKeuangan" required class="w-full border rounded px-3 py-2">
           <option value="">-- Pilih Status --</option>
           <option value="masuk">Pemasukan</option>
@@ -60,7 +65,7 @@
   </div>
 
   <div class="max-w-6xl mx-auto mt-10 bg-white shadow rounded-lg p-6">
-    <h3 class="text-xl font-bold text-green-600 mb-4">Riwayat Keuangan</h3>
+    <h3 class="text-2xl font-bold text-green-700 mb-4 text-center">Riwayat Keuangan</h3>
     <div class="overflow-x-auto">
       <table class="min-w-full table-auto border-collapse border border-gray-300">
         <thead class="bg-gray-200">
@@ -87,7 +92,7 @@
             <td></td>
           </tr>
           <tr>
-            <td colspan="5" class="border px-4 py-2 text-right">Total Pemakaian Pengeluaran</td>
+            <td colspan="5" class="border px-4 py-2 text-right">Total Pengeluaran Sebenarnya</td>
             <td id="totalPemakaianPengeluaran" class="border px-4 py-2 text-yellow-700">Rp 0</td>
             <td></td>
           </tr>
@@ -97,7 +102,7 @@
             <td></td>
           </tr>
           <tr>
-            <td colspan="5" class="border px-4 py-2 text-right">Sisa Saldo (Total Pemasukan - Total Pemakaian Pengeluaran)</td>
+            <td colspan="5" class="border px-4 py-2 text-right">Sisa Saldo (Total Pemasukan - Total Pengeluaran Sebenarnya)</td>
             <td id="sisaSaldoTotal" class="border px-4 py-2 text-blue-700">Rp 0</td>
             <td></td>
           </tr>

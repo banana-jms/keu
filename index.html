@@ -72,7 +72,13 @@
     </div>
   </div>
 
+  
   <script>
+  let password = prompt("Masukkan password:");
+  if (password !== "252515") {
+    document.body.innerHTML = "Akses ditolak.";
+  }
+
     const form = document.getElementById('financeForm');
     const tableBody = document.getElementById('keuanganTableBody');
     const statusKeuangan = document.getElementById('statusKeuangan');

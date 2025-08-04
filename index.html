@@ -1,28 +1,39 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Catatan Keuangan Pras Family</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen p-6">
 
+<!-- Modal Password -->
+<div id="passwordModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+  <div class="bg-white rounded-lg p-6 w-full max-w-sm shadow-lg text-center">
+    <h2 class="text-xl font-semibold mb-4 text-gray-700">Masukkan Password</h2>
+    <input type="password" id="passwordInput" class="w-full border rounded px-3 py-2 mb-4" placeholder="Password">
+    <button onclick="checkPassword()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-full">Masuk</button>
+    <p id="wrongPass" class="text-red-500 mt-3 hidden">Password salah ges!</p>
+  </div>
+</div>
+
+<div id="mainContent" class="hidden">
   <div class="max-w-4xl mx-auto bg-white shadow rounded-lg p-6">
     <h2 class="text-2xl font-bold text-blue-700 mb-4">Catatan Pos Pos Keuangan</h2>
 
     <form id="financeForm" class="space-y-4">
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        <label><input type="checkbox" name="pos" value="Gaji Pokok" class="mr-2">Gaji Pokok</label>
-        <label><input type="checkbox" name="pos" value="Bonus" class="mr-2">Bonus</label>
-        <label><input type="checkbox" name="pos" value="Investasi" class="mr-2">Investasi</label>
-        <label><input type="checkbox" name="pos" value="Cicilan Rumah" class="mr-2">Cicilan Rumah</label>
-        <label><input type="checkbox" name="pos" value="Cicilan Kendaraan" class="mr-2">Cicilan Kendaraan</label>
-        <label><input type="checkbox" name="pos" value="Kebutuhan Pokok" class="mr-2">Kebutuhan Pokok</label>
-        <label><input type="checkbox" name="pos" value="Pendidikan" class="mr-2">Pendidikan</label>
-        <label><input type="checkbox" name="pos" value="Hiburan" class="mr-2">Hiburan</label>
-        <label><input type="checkbox" name="pos" value="Transportasi" class="mr-2">Transportasi</label>
-        <label><input type="checkbox" name="pos" value="Tabungan" class="mr-2">Tabungan</label>
-        <label><input type="checkbox" name="pos" value="Lain-lain" class="mr-2">Lain-lain</label>
+        <label><input type="radio" name="pos" value="Gaji Pokok" class="mr-2" required>Gaji Pokok</label>
+        <label><input type="radio" name="pos" value="Bonus" class="mr-2">Bonus</label>
+        <label><input type="radio" name="pos" value="Investasi" class="mr-2">Investasi</label>
+        <label><input type="radio" name="pos" value="Cicilan Rumah" class="mr-2">Cicilan Rumah</label>
+        <label><input type="radio" name="pos" value="Cicilan Kendaraan" class="mr-2">Cicilan Kendaraan</label>
+        <label><input type="radio" name="pos" value="Kebutuhan Pokok" class="mr-2">Kebutuhan Pokok</label>
+        <label><input type="radio" name="pos" value="Pendidikan" class="mr-2">Pendidikan</label>
+        <label><input type="radio" name="pos" value="Hiburan" class="mr-2">Hiburan</label>
+        <label><input type="radio" name="pos" value="Transportasi" class="mr-2">Transportasi</label>
+        <label><input type="radio" name="pos" value="Tabungan" class="mr-2">Tabungan</label>
+        <label><input type="radio" name="pos" value="Lain-lain" class="mr-2">Lain-lain</label>
       </div>
 
       <div>
@@ -41,12 +52,10 @@
 
       <div id="jumlahContainer" class="hidden">
         <label class="block font-medium mb-1">Jumlah (Rp)</label>
-        <input type="number" id="jumlahTransaksi" class="w-full border rounded px-3 py-2" placeholder="Masukkan jumlah">
+        <input type="text" id="jumlahTransaksi" class="w-full border rounded px-3 py-2" placeholder="Masukkan jumlah">
       </div>
 
-      <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow">
-        Simpan
-      </button>
+      <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow">Simpan</button>
     </form>
   </div>
 
@@ -56,129 +65,187 @@
       <table class="min-w-full table-auto border-collapse border border-gray-300">
         <thead class="bg-gray-200">
           <tr>
-            <th class="border border-gray-300 px-4 py-2">Tanggal</th>
-            <th class="border border-gray-300 px-4 py-2">Pos Keuangan</th>
-            <th class="border border-gray-300 px-4 py-2">Status</th>
-            <th class="border border-gray-300 px-4 py-2">Jumlah</th>
-            <th class="border border-gray-300 px-4 py-2">Pemakaian</th>
-            <th class="border border-gray-300 px-4 py-2">Sisa Saldo</th>
-            <th class="border border-gray-300 px-4 py-2">Aksi</th>
+            <th class="border px-4 py-2">Tanggal</th>
+            <th class="border px-4 py-2">Pos Keuangan</th>
+            <th class="border px-4 py-2">Status</th>
+            <th class="border px-4 py-2">Jumlah</th>
+            <th class="border px-4 py-2">Pemakaian</th>
+            <th class="border px-4 py-2">Sisa Saldo</th>
+            <th class="border px-4 py-2">Aksi</th>
           </tr>
         </thead>
-        <tbody id="keuanganTableBody" class="bg-white divide-y divide-gray-200">
-          <!-- Data akan ditampilkan di sini -->
-        </tbody>
+        <tbody id="keuanganTableBody" class="bg-white divide-y divide-gray-200"></tbody>
+        <tfoot class="bg-gray-100 font-semibold">
+          <tr>
+            <td colspan="5" class="border px-4 py-2 text-right">Total Pemasukan</td>
+            <td id="totalPemasukan" class="border px-4 py-2 text-green-700">Rp 0</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colspan="5" class="border px-4 py-2 text-right">Maks. Total Pengeluaran</td>
+            <td id="totalPengeluaran" class="border px-4 py-2 text-red-700">Rp 0</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colspan="5" class="border px-4 py-2 text-right">Total Pemakaian Pengeluaran</td>
+            <td id="totalPemakaianPengeluaran" class="border px-4 py-2 text-yellow-700">Rp 0</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colspan="5" class="border px-4 py-2 text-right">Sisa Belum Keluar</td>
+            <td id="sisaBelumKeluar" class="border px-4 py-2 text-orange-600">Rp 0</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td colspan="5" class="border px-4 py-2 text-right">Sisa Saldo (Total Pemasukan - Total Pemakaian Pengeluaran)</td>
+            <td id="sisaSaldoTotal" class="border px-4 py-2 text-blue-700">Rp 0</td>
+            <td></td>
+          </tr>
+        </tfoot>
       </table>
     </div>
   </div>
+</div>
 
-  
-  <script>
-  //PASS GES
-  
+<script>
   function decodeBase64(str) {
     return atob(str);
   }
 
-  const encodedPassword = "MjUyNTE1"; //
-  const input = prompt("Masukkan password:");
-
-  if (input !== decodeBase64(encodedPassword)) {
-    document.body.innerHTML = "GAGAL GES!!! SALAH PASWOT.";
+  function checkPassword() {
+    const encodedPassword = "MjUyNTE1"; // 252515
+    const input = document.getElementById('passwordInput').value;
+    if (input === decodeBase64(encodedPassword)) {
+      document.getElementById('passwordModal').classList.add('hidden');
+      document.getElementById('mainContent').classList.remove('hidden');
+    } else {
+      document.getElementById('wrongPass').classList.remove('hidden');
+    }
   }
-    //PASS SAMPE SINI GES
 
-    const form = document.getElementById('financeForm');
-    const tableBody = document.getElementById('keuanganTableBody');
-    const statusKeuangan = document.getElementById('statusKeuangan');
-    const tanggalContainer = document.getElementById('tanggalContainer');
-    const transaksiDate = document.getElementById('transaksiDate');
-    const jumlahContainer = document.getElementById('jumlahContainer');
-    const jumlahTransaksi = document.getElementById('jumlahTransaksi');
+  const form = document.getElementById('financeForm');
+  const tableBody = document.getElementById('keuanganTableBody');
+  const statusKeuangan = document.getElementById('statusKeuangan');
+  const transaksiDate = document.getElementById('transaksiDate');
+  const tanggalContainer = document.getElementById('tanggalContainer');
+  const jumlahTransaksi = document.getElementById('jumlahTransaksi');
+  const jumlahContainer = document.getElementById('jumlahContainer');
 
-    let keuanganHistory = JSON.parse(localStorage.getItem('keuanganHistory')) || [];
+  const totalPemasukan = document.getElementById('totalPemasukan');
+  const totalPengeluaran = document.getElementById('totalPengeluaran');
+  const totalPemakaianPengeluaran = document.getElementById('totalPemakaianPengeluaran');
+  const sisaBelumKeluar = document.getElementById('sisaBelumKeluar');
+  const sisaSaldoTotal = document.getElementById('sisaSaldoTotal');
 
-    statusKeuangan.addEventListener('change', () => {
-      const show = !!statusKeuangan.value;
-      tanggalContainer.classList.toggle('hidden', !show);
-      jumlahContainer.classList.toggle('hidden', !show);
-      transaksiDate.required = show;
-      jumlahTransaksi.required = show;
-    });
+  let keuanganHistory = JSON.parse(localStorage.getItem('keuanganHistory')) || [];
 
-    function formatTanggalIndo(isoDate) {
-      const hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-      const bulan = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-        'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
-      const d = new Date(isoDate);
-      return `${hari[d.getDay()]}, ${d.getDate()} ${bulan[d.getMonth()]} ${d.getFullYear()}`;
-    }
+  statusKeuangan.addEventListener('change', () => {
+    const show = !!statusKeuangan.value;
+    tanggalContainer.classList.toggle('hidden', !show);
+    jumlahContainer.classList.toggle('hidden', !show);
+    transaksiDate.required = show;
+    jumlahTransaksi.required = show;
+  });
 
-    function renderTable() {
-      tableBody.innerHTML = '';
-      keuanganHistory.forEach((entry, index) => {
-        const sisa = parseInt(entry.jumlah || 0) - parseInt(entry.pemakaian || 0);
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td class="border px-4 py-2">${entry.date || '-'}</td>
-          <td class="border px-4 py-2">${entry.pos}</td>
-          <td class="border px-4 py-2">${entry.status}</td>
-          <td class="border px-4 py-2">Rp ${parseInt(entry.jumlah || 0).toLocaleString()}</td>
-          <td class="border px-4 py-2"><input type="number" value="${entry.pemakaian || 0}" onchange="updatePemakaian(${index}, this.value)" class="w-24 px-1 py-0.5 border rounded"></td>
-          <td class="border px-4 py-2">Rp ${(sisa).toLocaleString()}</td>
-          <td class="border px-4 py-2 space-x-2">
-            <button onclick="deleteEntry(${index})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">Hapus</button>
-          </td>
-        `;
-        tableBody.appendChild(tr);
-      });
-    }
+  jumlahTransaksi.addEventListener('input', (e) => {
+    let value = e.target.value.replace(/\D/g, '');
+    e.target.value = new Intl.NumberFormat('id-ID').format(value);
+  });
 
-    function updatePemakaian(index, value) {
-      keuanganHistory[index].pemakaian = parseInt(value) || 0;
-      localStorage.setItem('keuanganHistory', JSON.stringify(keuanganHistory));
-      renderTable();
-    }
+  function formatTanggalIndo(isoDate) {
+    const hari = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+    const bulan = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    const d = new Date(isoDate);
+    return `${hari[d.getDay()]}, ${d.getDate()} ${bulan[d.getMonth()]} ${d.getFullYear()}`;
+  }
 
-    function deleteEntry(index) {
-      keuanganHistory.splice(index, 1);
-      localStorage.setItem('keuanganHistory', JSON.stringify(keuanganHistory));
-      renderTable();
-    }
+  function renderTable() {
+    tableBody.innerHTML = '';
+    let pemasukan = 0, pengeluaran = 0, totalPemakaian = 0;
 
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
+    keuanganHistory.forEach((entry, index) => {
+      const jumlah = parseInt(entry.jumlah || 0);
+      const pemakaian = parseInt(entry.pemakaian || 0);
+      const sisa = jumlah - pemakaian;
 
-      const pos = Array.from(form.querySelectorAll('input[name="pos"]:checked')).map(i => i.value);
-      const status = statusKeuangan.value;
-      const date = transaksiDate.value;
-      const jumlah = jumlahTransaksi.value;
-      const pemakaian = 0;
-
-      if (!status || !date || !jumlah) {
-        alert('Isi semua data terlebih dahulu');
-        return;
+      if (entry.status === 'Pemasukan') pemasukan += jumlah;
+      if (entry.status === 'Pengeluaran') {
+        pengeluaran += jumlah;
+        totalPemakaian += pemakaian;
       }
 
-      const entry = {
-        pos: pos.join(', '),
-        status: status === 'masuk' ? 'Pemasukan' : 'Pengeluaran',
-        rawDate: date,
-        jumlah: jumlah,
-        pemakaian: pemakaian,
-        date: formatTanggalIndo(date)
-      };
+      let rowClass = '';
+      if (entry.status === 'Pengeluaran') {
+        if (sisa === 0) {
+          rowClass = 'bg-orange-100';
+        } else if (sisa < 0) {
+          rowClass = 'bg-red-100';
+        } else if (sisa > 0) {
+          rowClass = 'bg-green-100';
+        }
+      }
 
-      keuanganHistory.push(entry);
-      localStorage.setItem('keuanganHistory', JSON.stringify(keuanganHistory));
-      renderTable();
-      form.reset();
-      tanggalContainer.classList.add('hidden');
-      jumlahContainer.classList.add('hidden');
+      const tr = document.createElement('tr');
+      tr.className = rowClass;
+      tr.innerHTML = `
+        <td class="border px-4 py-2">${entry.date}</td>
+        <td class="border px-4 py-2">${entry.pos}</td>
+        <td class="border px-4 py-2">${entry.status}</td>
+        <td class="border px-4 py-2">Rp ${jumlah.toLocaleString('id-ID')}</td>
+        <td class="border px-4 py-2"><input type="number" value="${pemakaian}" onchange="updatePemakaian(${index}, this.value)" class="w-24 px-1 py-0.5 border rounded"></td>
+        <td class="border px-4 py-2">Rp ${sisa.toLocaleString('id-ID')}</td>
+        <td class="border px-4 py-2"><button onclick="deleteEntry(${index})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">Hapus</button></td>
+      `;
+      tableBody.appendChild(tr);
     });
 
-    renderTable();
-  </script>
+    totalPemasukan.textContent = `Rp ${pemasukan.toLocaleString('id-ID')}`;
+    totalPengeluaran.textContent = `Rp ${pengeluaran.toLocaleString('id-ID')}`;
+    totalPemakaianPengeluaran.textContent = `Rp ${totalPemakaian.toLocaleString('id-ID')}`;
+    sisaBelumKeluar.textContent = `Rp ${(pengeluaran - totalPemakaian).toLocaleString('id-ID')}`;
+    sisaSaldoTotal.textContent = `Rp ${(pemasukan - totalPemakaian).toLocaleString('id-ID')}`;
+  }
 
+  function updatePemakaian(index, value) {
+    keuanganHistory[index].pemakaian = parseInt(value) || 0;
+    localStorage.setItem('keuanganHistory', JSON.stringify(keuanganHistory));
+    renderTable();
+  }
+
+  function deleteEntry(index) {
+    keuanganHistory.splice(index, 1);
+    localStorage.setItem('keuanganHistory', JSON.stringify(keuanganHistory));
+    renderTable();
+  }
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const pos = form.querySelector('input[name="pos"]:checked')?.value;
+    const status = statusKeuangan.value;
+    const date = transaksiDate.value;
+    const jumlah = jumlahTransaksi.value.replace(/\./g, '');
+
+    if (!pos || !status || !date || !jumlah) {
+      alert("Lengkapi semua data.");
+      return;
+    }
+
+    keuanganHistory.push({
+      pos,
+      status: status === 'masuk' ? 'Pemasukan' : 'Pengeluaran',
+      jumlah,
+      pemakaian: 0,
+      date: formatTanggalIndo(date)
+    });
+
+    localStorage.setItem('keuanganHistory', JSON.stringify(keuanganHistory));
+    renderTable();
+    form.reset();
+    tanggalContainer.classList.add('hidden');
+    jumlahContainer.classList.add('hidden');
+  });
+
+  renderTable();
+</script>
 </body>
 </html>

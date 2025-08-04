@@ -26,42 +26,57 @@
 <!-- Inputan disini -->
 <h3 class="text-lg font-semibold text-gray-700 mb-4">Pilih Item Keuangan</h3>
 
-    <form id="financeForm" class="space-y-4">
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-        <label><input type="radio" name="pos" value="Gaji Pokok" class="mr-2" required>Gaji Pokok</label>
-        <label><input type="radio" name="pos" value="Bonus" class="mr-2">Bonus</label>
-        <label><input type="radio" name="pos" value="Investasi" class="mr-2">Investasi</label>
-        <label><input type="radio" name="pos" value="Cicilan Rumah" class="mr-2">Cicilan Rumah</label>
-        <label><input type="radio" name="pos" value="Cicilan Kendaraan" class="mr-2">Cicilan Kendaraan</label>
-        <label><input type="radio" name="pos" value="Kebutuhan Pokok" class="mr-2">Kebutuhan Pokok</label>
-        <label><input type="radio" name="pos" value="Pendidikan" class="mr-2">Pendidikan</label>
-        <label><input type="radio" name="pos" value="Hiburan" class="mr-2">Hiburan</label>
-        <label><input type="radio" name="pos" value="Transportasi" class="mr-2">Transportasi</label>
-        <label><input type="radio" name="pos" value="Tabungan" class="mr-2">Tabungan</label>
-        <label><input type="radio" name="pos" value="Lain-lain" class="mr-2">Lain-lain</label>
-      </div>
+<form id="financeForm" class="space-y-4">
+  <!-- PEMASUKAN -->
+  <div class="mb-4">
+    <h4 class="font-semibold text-green-700 mb-2">Pemasukan</h4>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <label><input type="radio" name="pos" value="Gaji" class="mr-2" required>Gaji</label>
+      <label><input type="radio" name="pos" value="Remunerasi" class="mr-2">Remunerasi</label>
+      <label><input type="radio" name="pos" value="THR" class="mr-2">THR</label>
+      <label><input type="radio" name="pos" value="Pemasukan Lainnya" class="mr-2">Pemasukan Lainnya</label>
+    </div>
+  </div>
 
-      <div>
-        <label class="block font-medium mb-1">Status (Pemasukan atau Pengeluaran)</label>
-        <select id="statusKeuangan" required class="w-full border rounded px-3 py-2">
-          <option value="">-- Pilih Status --</option>
-          <option value="masuk">Pemasukan</option>
-          <option value="keluar">Pengeluaran</option>
-        </select>
-      </div>
+  <!-- PENGELUARAN -->
+  <div class="mb-4">
+    <h4 class="font-semibold text-red-700 mb-2">Pengeluaran</h4>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <label><input type="radio" name="pos" value="Kontrakan" class="mr-2">Kontrakan</label>
+      <label><input type="radio" name="pos" value="Cicilan Shopee" class="mr-2">Cicilan Shopee</label>
+      <label><input type="radio" name="pos" value="Hutang ke Bank" class="mr-2">Hutang ke Bank</label>
+      <label><input type="radio" name="pos" value="Transportasi" class="mr-2">Transportasi</label>
+      <label><input type="radio" name="pos" value="Bayar Kontrakan" class="mr-2">Bayar Kontrakan</label>
+      <label><input type="radio" name="pos" value="Bayar Lainnya" class="mr-2">Bayar Lainnya</label>
+    </div>
+  </div>
 
-      <div id="tanggalContainer" class="hidden">
-        <label class="block font-medium mb-1">Tanggal Transaksi</label>
-        <input type="date" id="transaksiDate" class="w-full border rounded px-3 py-2">
-      </div>
+  <!-- STATUS -->
+  <div>
+    <label class="block font-medium mb-1">Status (Pemasukan atau Pengeluaran)</label>
+    <select id="statusKeuangan" required class="w-full border rounded px-3 py-2">
+      <option value="">-- Pilih Status --</option>
+      <option value="masuk">Pemasukan</option>
+      <option value="keluar">Pengeluaran</option>
+    </select>
+  </div>
 
-      <div id="jumlahContainer" class="hidden">
-        <label class="block font-medium mb-1">Jumlah (Rp)</label>
-        <input type="text" id="jumlahTransaksi" class="w-full border rounded px-3 py-2" placeholder="Masukkan jumlah">
-      </div>
+  <!-- TANGGAL -->
+  <div id="tanggalContainer" class="hidden">
+    <label class="block font-medium mb-1">Tanggal Transaksi</label>
+    <input type="date" id="transaksiDate" class="w-full border rounded px-3 py-2">
+  </div>
 
-      <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow">Simpan</button>
-    </form>
+  <!-- JUMLAH -->
+  <div id="jumlahContainer" class="hidden">
+    <label class="block font-medium mb-1">Jumlah (Rp)</label>
+    <input type="text" id="jumlahTransaksi" class="w-full border rounded px-3 py-2" placeholder="Masukkan jumlah">
+  </div>
+
+  <!-- BUTTON -->
+  <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded shadow">Simpan</button>
+</form>
+
   </div>
 
   <div class="max-w-6xl mx-auto mt-10 bg-white shadow rounded-lg p-6">
@@ -111,6 +126,10 @@
     </div>
   </div>
 </div>
+<footer class="mt-10 text-center text-gray-600 text-sm">
+  <hr class="border-t border-gray-300 my-4 w-full">
+  <p>&copy; 2025 <span class="font-semibold text-blue-700">Pras Family</span>. All rights reserved.</p>
+</footer>
 
 <script>
   function decodeBase64(str) {
@@ -164,6 +183,12 @@
     return `${hari[d.getDay()]}, ${d.getDate()} ${bulan[d.getMonth()]} ${d.getFullYear()}`;
   }
 
+function formatPemakaianInput(input) {
+  const raw = input.value.replace(/\D/g, ''); // ambil hanya angka
+  input.value = new Intl.NumberFormat('id-ID').format(raw);
+}
+
+
   function renderTable() {
     tableBody.innerHTML = '';
     let pemasukan = 0, pengeluaran = 0, totalPemakaian = 0;
@@ -196,8 +221,12 @@
         <td class="border px-4 py-2">${entry.date}</td>
         <td class="border px-4 py-2">${entry.pos}</td>
         <td class="border px-4 py-2">${entry.status}</td>
-        <td class="border px-4 py-2">Rp ${jumlah.toLocaleString('id-ID')}</td>
-        <td class="border px-4 py-2"><input type="number" value="${pemakaian}" onchange="updatePemakaian(${index}, this.value)" class="w-24 px-1 py-0.5 border rounded"></td>
+        <td class="border px-4 py-2">Rp. ${jumlah.toLocaleString('id-ID')}</td>
+        <td class="border px-4 py-2">Rp. <input type="text" value="${pemakaian.toLocaleString('id-ID')}" 
+  oninput="formatPemakaianInput(this)" 
+  onchange="updatePemakaian(${index}, this.value)" 
+  class="w-24 px-1 py-0.5 border rounded text-right">
+</td>
         <td class="border px-4 py-2">Rp ${sisa.toLocaleString('id-ID')}</td>
         <td class="border px-4 py-2"><button onclick="deleteEntry(${index})" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">Hapus</button></td>
       `;

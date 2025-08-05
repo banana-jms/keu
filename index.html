@@ -48,6 +48,12 @@
       <label><input type="radio" name="pos" value="Transportasi" class="mr-2">Transportasi</label>
       <label><input type="radio" name="pos" value="Bayar Kontrakan" class="mr-2">Bayar Kontrakan</label>
       <label><input type="radio" name="pos" value="Bayar Lainnya" class="mr-2">Bayar Lainnya</label>
+      <label><input type="radio" name="pos" value="Kontrakan" class="mr-2">Kontrakan</label>
+      <label><input type="radio" name="pos" value="Cicilan Shopee" class="mr-2">Cicilan Shopee</label>
+      <label><input type="radio" name="pos" value="Hutang ke Bank" class="mr-2">Hutang ke Bank</label>
+      <label><input type="radio" name="pos" value="Transportasi" class="mr-2">Transportasi</label>
+      <label><input type="radio" name="pos" value="Bayar Kontrakan" class="mr-2">Bayar Kontrakan</label>
+      <label><input type="radio" name="pos" value="Bayar Lainnya" class="mr-2">Bayar Lainnya</label>
     </div>
   </div>
 
@@ -137,7 +143,7 @@
   }
 
   function checkPassword() {
-    const encodedPassword = "MTIzMzIx"; //password
+    const encodedPassword = "MjUyNTE1"; // password
     const input = document.getElementById('passwordInput').value;
     if (input === decodeBase64(encodedPassword)) {
       document.getElementById('passwordModal').classList.add('hidden');
@@ -183,10 +189,7 @@
     return `${hari[d.getDay()]}, ${d.getDate()} ${bulan[d.getMonth()]} ${d.getFullYear()}`;
   }
 
-function formatPemakaianInput(input) {
-  const raw = input.value.replace(/\D/g, ''); // ambil hanya angka
-  input.value = new Intl.NumberFormat('id-ID').format(raw);
-}
+// fungsi pemakaian biar dari 10000 jadi 10.000
 
 
   function renderTable() {
